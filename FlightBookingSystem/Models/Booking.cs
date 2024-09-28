@@ -21,14 +21,20 @@ namespace FlightBookingSystem.Models
         public Flight Flight { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
+        [Display(Name = "Booking Date")]
         public DateTime BookingDate { get; set; }
 
         [Required]
+        [EnumDataType(typeof(BookingStatus))]
         public BookingStatus Status { get; set; } // Enum: Pending, Confirmed, Cancelled
 
         public ICollection<Passenger> Passengers { get; set; }
 
         [Required]
+        [DataType(DataType.Currency)]
+        [Range(0, 100000)]
+        [Display(Name = "Total Cost")]
         public decimal TotalCost { get; set; }
 
         public Payment Payment { get; set; }
