@@ -1,3 +1,9 @@
+using FlightBookingSystem.Models;
+using FlightBookingSystem.Repositories;
+using FlightBookingSystem.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 namespace FlightBookingSystem
 {
     public class Program
@@ -9,13 +15,31 @@ namespace FlightBookingSystem
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            // Register DbContext with a connection string from appsettings.json
+            builder.Services.AddDbContext<AirLineDBcontext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            // Register repositories
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+            // Register services
+            builder.Services.AddScoped<IUserService, UserService>();
+
+            // Set up authentication with cookie
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/User/Login"; // Redirect to login page if not authenticated
+                });
+
+            builder.Services.AddHttpContextAccessor(); // To access the current HttpContext
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
@@ -24,6 +48,7 @@ namespace FlightBookingSystem
 
             app.UseRouting();
 
+            app.UseAuthentication(); // Enable authentication
             app.UseAuthorization();
 
             app.MapControllerRoute(

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FlightBookingSystem.Repositories
 {
-    public class UserRepository : IRepository<User>
+    public class UserRepository : IRepository<User> , IUserRepository
     {
         private readonly AirLineDBcontext context;
         //private readonly DbSet<User> users;
@@ -11,6 +11,10 @@ namespace FlightBookingSystem.Repositories
         {
             this.context = context;
             //users = context.Set<User>();
+        }
+        public async Task<User> GetUserByEmailAsync(string email)
+        {
+            return await context.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
 
         public async Task<IEnumerable<User>> GetAllAsync() 
