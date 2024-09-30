@@ -22,8 +22,15 @@
             </div>
             <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
-                <input asp-for="Status" class="form-control" />
+                <input type="number" asp-for="Status"  class="form-control" />
                 <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div>
+                <select asp-for="PaymentMethod">
+                    <option value="Credit">Credit</option>
+                    <option value="PayPal">PayPal</option>
+                    <option value="Card">Card</option>
+               </select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -35,3 +42,8 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

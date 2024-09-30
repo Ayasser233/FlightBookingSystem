@@ -47,7 +47,7 @@ namespace YourNamespace.Controllers   // Adjust the namespace accordingly
         // POST: Payment/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Amount,Date,Status")] Payment payment)
+        public async Task<IActionResult> Create([Bind("Id,Amount,Date,Status ,PaymentMethod")] Payment payment)
         {
             if (ModelState.IsValid)
             {
