@@ -35,9 +35,6 @@ namespace FlightBookingSystem.Models
         public int AvailableSeats => TotalSeats - BookedSeats;
 
         [Required]
-        [Range(0, 100)]
-        [Display(Name = "Booked Seats")]
-        public int BookedSeats { get; set; }
 
         [Required]
         public decimal BasePrice { get; set; }

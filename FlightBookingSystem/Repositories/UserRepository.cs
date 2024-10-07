@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FlightBookingSystem.Repositories
 {
-    public class UserRepository : IRepository<User> , IUserRepository
     {
         private readonly AirLineDBcontext context;
         //private readonly DbSet<User> users;
