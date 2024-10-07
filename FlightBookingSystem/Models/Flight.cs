@@ -30,13 +30,17 @@ namespace FlightBookingSystem.Models
         [Required]
         [Display(Name = "Total Seats")]
         public int TotalSeats { get; set; }
+        [Required]
+        [Range(0, 100)]
+        [Display(Name = "Booked Seats")]
+        public int BookedSeats { get; set; }
 
         [Display(Name = "Available Seats")]
         public int AvailableSeats => TotalSeats - BookedSeats;
 
         [Required]
 
-        [Required]
+        
         public decimal BasePrice { get; set; }
 
         [Required]

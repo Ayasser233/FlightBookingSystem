@@ -3,10 +3,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FlightBookingSystem.Repositories
 {
-    {
-        private readonly AirLineDBcontext context;
+    public class UserRepository : IUserRepository {
+
+        private readonly FlightBookingSystem.Models.AirLineDBcontext context ;
         //private readonly DbSet<User> users;
-        public UserRepository(AirLineDBcontext context) 
+        public UserRepository(AirLineDBcontext context)
         {
             this.context = context;
             //users = context.Set<User>();
@@ -16,7 +17,7 @@ namespace FlightBookingSystem.Repositories
             return await context.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
 
-        public async Task<IEnumerable<User>> GetAllAsync() 
+        public async Task<IEnumerable<User>> GetAllAsync()
         {
             return await context.Users.ToListAsync();
         }
@@ -26,28 +27,29 @@ namespace FlightBookingSystem.Repositories
             return await context.Users.FindAsync(id);
         }
 
-        public async Task Add(User user) 
+        public async Task Add(User user)
         {
             await context.Users.AddAsync(user);
             await context.SaveChangesAsync();
         }
 
-        public async Task Update(User user) 
+        public async Task Update(User user)
         {
             context.Users.Update(user);
             await context.SaveChangesAsync();
         }
 
-        public async Task Delete(int id) 
+        public async Task Delete(int id)
         {
             var user = await GetById(id);
-            if (user != null) 
-            { 
+            if (user != null)
+            {
                 context.Users.Remove(user);
-                await context.SaveChangesAsync();   
+                await context.SaveChangesAsync();
             }
         }
+    }
 
         
     }
-}
+
