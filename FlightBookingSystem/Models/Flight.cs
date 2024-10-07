@@ -31,7 +31,6 @@ namespace FlightBookingSystem.Models
         [Display(Name = "Total Seats")]
         public int TotalSeats { get; set; }
         [Required]
-        [Range(0, 100)]
         [Display(Name = "Booked Seats")]
         public int BookedSeats { get; set; }
 
@@ -47,7 +46,7 @@ namespace FlightBookingSystem.Models
         [EnumDataType(typeof(FlightStatus))]
         public FlightStatus Status { get; set; } // Enum: Scheduled, Cancelled, Delayed
 
-        public ICollection<Booking> Bookings { get; set; }
+        public ICollection<Booking>? Bookings { get; set; }
     }
 
     public enum FlightStatus

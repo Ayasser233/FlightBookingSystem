@@ -24,6 +24,7 @@ namespace FlightBookingSystem
 
             // Register services
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IFlightRepository, FlightRepository>();
 
             // Set up authentication with cookie
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -33,7 +34,7 @@ namespace FlightBookingSystem
                 });
 
             builder.Services.AddHttpContextAccessor(); // To access the current HttpContext
-
+            
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
