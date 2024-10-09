@@ -1,3 +1,12 @@
-﻿<h2>Booking Confirmed!</h2>
-<p>Your flight has been successfully booked.</p>
-<p>Check your email for details.</p>
+﻿@{
+    ViewData["Title"] = "Booking Confirmation";
+}
+
+<h2>Booking Confirmation</h2>
+
+<div>
+    <h4>Your booking has been confirmed!</h4>
+    <p>Your booking ID is: @TempData["BookingId"]</p>
+</div>
+
+<a asp-action="Index" class="btn btn-secondary">View Bookings</a>

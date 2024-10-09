@@ -1,26 +1,39 @@
-﻿@model List<Flight>
+﻿@model IEnumerable<Flight>
 
-<form asp-action="Step2" method="post">
-    <table>
-        <thead>
+@{
+    ViewData["Title"] = "Step 2: Available Flights";
+}
+
+<h2>Step 2: Available Flights</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Flight ID</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var flight in Model)
+        {
             <tr>
-                <th>Flight Time</th>
-                <th>Price per Passenger</th>
-                <th>Available Seats</th>
-                <th>Select</th>
+                
+                <td>@flight.FlightNumber</td>
+                <td>@flight.DepartureAirport</td>
+                <td>@flight.ArrivalAirport</td>
+                <td>@flight.DepartureTime.ToShortDateString()</td>
+                <td>
+                    <form asp-action="Step2" method="post">
+                        <input type="hidden" name="flightId" value="@flight.FlightId" />
+                        <input type="submit" value="Select Flight" class="btn btn-primary" />
+                    </form>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var flight in Model)
-            {
-                <tr>
-                    <td>@flight.DepartureTime</td>
-                    <td>@flight.BasePrice</td>
-                    <td>@flight.AvailableSeats</td>
-                    <td><input type="radio" name="selectedFlightId" value="@flight.FlightId" /></td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    <button type="submit">Continue</button>
-</form>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Step1" class="btn btn-secondary">Back to Search</a>

@@ -1,5 +1,6 @@
 ﻿using FlightBookingSystem.DTOs;
 using FlightBookingSystem.Models;
+using FlightBookingSystem.ModelView;
 using FlightBookingSystem.Repositories;
 using FlightBookingSystem.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +8,6 @@ using Newtonsoft.Json;
 
 namespace FlightBookingSystem.Controllers
 {
-
     public class BookingController : Controller
     {
         private readonly IBookingRepository _bookingRepository;
@@ -23,15 +23,12 @@ namespace FlightBookingSystem.Controllers
             _paymentService = paymentService;
         }
 
-
-
         public async Task<IActionResult> Index()
         {
             var bookings = await _bookingRepository.GetAllAsync();
             return View(bookings);
         }
 
-       
         public IActionResult Add()
         {
             return View();
@@ -49,9 +46,6 @@ namespace FlightBookingSystem.Controllers
             return View(booking);
         }
 
-   
-
-        
         public async Task<IActionResult> Get(int id)
         {
             var booking = await _bookingRepository.GetById(id);
@@ -80,20 +74,21 @@ namespace FlightBookingSystem.Controllers
             await _bookingRepository.Delete(id);
             return RedirectToAction("Index");
         }
+
+        // Step 1: Handle Flight Search Form Submission
         [HttpGet]
         public IActionResult Step1()
         {
             return View();
         }
 
-        //
-        // Step 1: Handle Flight Search Form Submission
         [HttpPost]
-        public IActionResult Step1(FlightSearchDto flightSearchDto)
+        public IActionResult Step1(int flightId, FlightSearchDto flightSearchDto)
         {
             if (ModelState.IsValid)
             {
                 TempData["FlightSearch"] = JsonConvert.SerializeObject(flightSearchDto);
+                TempData["SelectedFlightId"] = flightId;
                 return RedirectToAction("Step2");
             }
             return View(flightSearchDto);
@@ -111,7 +106,6 @@ namespace FlightBookingSystem.Controllers
 
             return View(availableFlights);
         }
-
         [HttpPost]
         public IActionResult Step2(int selectedFlightId)
         {
@@ -120,11 +114,13 @@ namespace FlightBookingSystem.Controllers
 
             return RedirectToAction("Step3");
         }
+       
+
+
 
         // Step 3: Display Passenger Information Form
         public IActionResult Step3()
         {
-            // Check if TempData contains the necessary data
             if (TempData["FlightSearch"] == null || TempData["SelectedFlightId"] == null)
             {
                 return RedirectToAction("Step1");  // Redirect to Step 1 if TempData is lost
@@ -145,7 +141,6 @@ namespace FlightBookingSystem.Controllers
             return View(passengers);
         }
 
-
         // Step 3: Handle Passenger Information Submission
         [HttpPost]
         public IActionResult Step3(List<PassengerDto> passengers)
@@ -155,15 +150,15 @@ namespace FlightBookingSystem.Controllers
                 TempData["Passengers"] = JsonConvert.SerializeObject(passengers);
                 return RedirectToAction("Step4");
             }
-            return View(passengers);
+            return View(passengers); // Return to Step3 if the model is invalid
         }
 
         // Step 4: Display Payment Page
         [HttpGet]
-        public IActionResult Step4()
+        public async Task<IActionResult> Step4()
         {
             var flightId = (int)TempData["SelectedFlightId"];
-            var flight = _flightRepository.GetById(flightId).Result; // Assuming a repository method to get flight details
+            var flight = await _flightRepository.GetById(flightId); // Use await for async method
             var passengers = JsonConvert.DeserializeObject<List<PassengerDto>>((string)TempData["Passengers"]);
 
             var paymentDto = new PaymentDto
@@ -180,16 +175,13 @@ namespace FlightBookingSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> CompleteBooking(PaymentDto paymentDto)
         {
-            // Check if TempData contains the necessary data
             if (TempData["SelectedFlightId"] == null || TempData["Passengers"] == null)
             {
-                return RedirectToAction("Step1");  // Redirect to Step 1 or any other appropriate action
+                return RedirectToAction("Step1");  // Redirect to Step 1 if TempData is lost
             }
 
-            // Safely retrieve and keep the TempData keys for the next request
             var flightId = (int)TempData["SelectedFlightId"];
 
-            // Deserialize passengers with null check
             var passengersJson = (string)TempData["Passengers"];
             if (string.IsNullOrEmpty(passengersJson))
             {
@@ -205,11 +197,10 @@ namespace FlightBookingSystem.Controllers
             // Validate the paymentDto model
             if (!ModelState.IsValid)
             {
-                // If the model is not valid, return the same view with the paymentDto
                 return View("Step4", paymentDto); // Ensure the view has access to the model
             }
 
-            // Process payment (pseudo-code)
+            // Process payment
             var paymentSuccess = await _paymentService.ProcessPayment(paymentDto);
 
             if (paymentSuccess)
@@ -224,15 +215,10 @@ namespace FlightBookingSystem.Controllers
             return View("Step4", paymentDto);
         }
 
-
-
         // Confirmation page
         public IActionResult Confirmation()
         {
             return View();
         }
-
     }
 }
-
-
