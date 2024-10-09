@@ -1,7 +1,7 @@
-﻿@model PaymentDto
+﻿@model BookingDto
 
 <h2>Flight Details</h2>
-<p>Flight Time: @Model.Flight.DepartureTime</p>
+<p>Flight ID: @Model.FlightId</p>
 <p>Total Price: @Model.TotalPrice</p>
 
 <h2>Passenger Information</h2>
@@ -13,14 +13,14 @@
 </ul>
 
 <form asp-action="CompleteBooking" method="post">
-    div>
-    <label asp-for="CardNumber"></label>
-    <input asp-for="CardNumber" />
-    <span asp-validation-for="CardNumber"></span>
+    <div>
+        <label asp-for="CardNumber"></label>
+        <input asp-for="CardNumber" />
+        <span asp-validation-for="CardNumber"></span>
     </div>
     <div>
         <label asp-for="ExpiryDate"></label>
-        <input asp-for="ExpiryDate" />
+        <input asp-for="ExpiryDate" type="date" />
         <span asp-validation-for="ExpiryDate"></span>
     </div>
     <label for="PaymentMethod">Payment Method</label>

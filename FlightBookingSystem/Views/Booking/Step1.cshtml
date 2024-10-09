@@ -1,29 +1,36 @@
-﻿@model FlightSearchDto
+﻿@model FlightBookingSystem.DTOs.FlightSearchDto
+
+@{
+    ViewData["Title"] = "Step 1: Flight Search";
+}
+
+<h2>Step 1: Search for Flights</h2>
 
 <form asp-action="Step1" method="post">
-    <div>
-        <label>From Airport</label>
-        <input asp-for="FromAirport" />
+    <div class="form-group">
+        <label asp-for="FromAirport"></label>
+        <input asp-for="FromAirport" class="form-control" />
+        <span asp-validation-for="FromAirport" class="text-danger"></span>
     </div>
-    <div>
-        <label>To Airport</label>
-        <input asp-for="ToAirport" />
+    <div class="form-group">
+        <label asp-for="ToAirport"></label>
+        <input asp-for="ToAirport" class="form-control" />
+        <span asp-validation-for="ToAirport" class="text-danger"></span>
     </div>
-    <div>
-        <label>Number of Passengers</label>
-        <input asp-for="NumberOfPassengers" />
+    <div class="form-group">
+        <label asp-for="FlightDate"></label>
+        <input asp-for="FlightDate" type="date" class="form-control" />
+        <span asp-validation-for="FlightDate" class="text-danger"></span>
     </div>
-    <div>
-        <label>Class</label>
-        <select asp-for="SeatClass">
+    <div class="form-group">
+        <label asp-for="SeatClass"></label>
+        <select asp-for="SeatClass" class="form-control">
             <option value="Economy">Economy</option>
             <option value="Business">Business</option>
-            <option value="First">First Class</option>
         </select>
     </div>
-    <div>
-        <label>Flight Date</label>
-        <input asp-for="FlightDate" type="date" />
-    </div>
-    <button type="submit">Search Flights</button>
+
+    <input type="submit" value="Search Flights" class="btn btn-primary" />
 </form>
+
+<a asp-action="Index" class="btn btn-secondary">Back</a>
