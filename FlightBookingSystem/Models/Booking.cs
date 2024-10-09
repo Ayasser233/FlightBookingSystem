@@ -5,6 +5,8 @@ namespace FlightBookingSystem.Models
 {
     public class Booking
     {
+        internal object ArrivalAirport;
+
         [Key]
         public int BookingId { get; set; }
 
@@ -38,6 +40,7 @@ namespace FlightBookingSystem.Models
         public decimal TotalCost { get; set; }
 
         public Payment Payment { get; set; }
+        public int TotalPrice { get; internal set; }
     }
 
     public enum BookingStatus

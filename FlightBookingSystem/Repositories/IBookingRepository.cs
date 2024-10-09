@@ -1,4 +1,5 @@
-﻿using FlightBookingSystem.Models;
+﻿using FlightBookingSystem.DTOs;
+using FlightBookingSystem.Models;
 
 namespace FlightBookingSystem.Repositories
 {
@@ -7,5 +8,6 @@ namespace FlightBookingSystem.Repositories
         Task<IEnumerable<Booking>> GetBookingsByUserIdAsync(int userId);
         Task<IEnumerable<Booking>> GetBookingsByFlightIdAsync(int flightId);
         Task<IEnumerable<Booking>> GetPendingBookingsAsync();
+        Task CreateBooking(int flightId, List<PassengerDto> passengers);
     }
 }

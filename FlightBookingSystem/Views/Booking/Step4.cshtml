@@ -1,0 +1,34 @@
+﻿@model PaymentDto
+
+<h2>Flight Details</h2>
+<p>Flight Time: @Model.Flight.DepartureTime</p>
+<p>Total Price: @Model.TotalPrice</p>
+
+<h2>Passenger Information</h2>
+<ul>
+    @foreach (var passenger in Model.Passengers)
+    {
+        <li>@passenger.FullName, Passport: @passenger.PassportNumber</li>
+    }
+</ul>
+
+<form asp-action="CompleteBooking" method="post">
+    div>
+    <label asp-for="CardNumber"></label>
+    <input asp-for="CardNumber" />
+    <span asp-validation-for="CardNumber"></span>
+    </div>
+    <div>
+        <label asp-for="ExpiryDate"></label>
+        <input asp-for="ExpiryDate" />
+        <span asp-validation-for="ExpiryDate"></span>
+    </div>
+    <label for="PaymentMethod">Payment Method</label>
+
+    <select asp-for="PaymentMethod">
+        <option value="CreditCard">Credit Card</option>
+        <option value="PayPal">PayPal</option>
+    </select>
+
+    <button type="submit">Complete Payment</button>
+</form>

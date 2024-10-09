@@ -5,26 +5,25 @@
 namespace FlightBookingSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class pass : Migration
+    public partial class ajkbk : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "Password",
-                table: "Users",
-                type: "nvarchar(100)",
-                maxLength: 100,
+            migrationBuilder.AddColumn<int>(
+                name: "AvailableSeats",
+                table: "Flights",
+                type: "int",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: 0);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Password",
-                table: "Users");
+                name: "AvailableSeats",
+                table: "Flights");
         }
     }
 }

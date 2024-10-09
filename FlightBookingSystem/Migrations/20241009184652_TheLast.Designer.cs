@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FlightBookingSystem.Migrations
 {
     [DbContext(typeof(AirLineDBcontext))]
-    [Migration("20240928163142_pass")]
-    partial class pass
+    [Migration("20241009184652_TheLast")]
+    partial class TheLast
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,6 +45,9 @@ namespace FlightBookingSystem.Migrations
                     b.Property<decimal>("TotalCost")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("TotalPrice")
+                        .HasColumnType("int");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -73,11 +76,11 @@ namespace FlightBookingSystem.Migrations
                     b.Property<DateTime>("ArrivalTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("AvailableSeats")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("BasePrice")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("BookedSeats")
+                        .HasColumnType("int");
 
                     b.Property<string>("DepartureAirport")
                         .IsRequired()
@@ -135,6 +138,10 @@ namespace FlightBookingSystem.Migrations
                     b.Property<int>("SeatClass")
                         .HasColumnType("int");
 
+                    b.Property<string>("SeatNumber")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
                     b.HasKey("PassengerId");
 
                     b.HasIndex("BookingId");
@@ -168,7 +175,6 @@ namespace FlightBookingSystem.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("TransactionId")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 

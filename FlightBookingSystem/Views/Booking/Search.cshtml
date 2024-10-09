@@ -1,0 +1,40 @@
+﻿@model FlightBookingSystem.Models.Booking
+
+<form asp-action="SearchFlights" method="post">
+    <div class="form-group">
+        <label for="from">FROM</label>
+        <select id="from" name="DepartureAirport" class="form-control">
+            <option value="Cairo">Cairo Intl Apt (CAI), Egypt</option>
+            <option value="Dubai">Dubai Intl Apt (DXB), UAE</option>
+            <option value="Istanbul">Istanbul Airport (IST), Turkey</option>
+            <option value="Doha">Hamad Intl Apt (DOH), Qatar</option>
+            <!-- Add more airports from the Middle East here -->
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="to">TO</label>
+        <select id="to" name="ArrivalAirport" class="form-control">
+            <option value="">Choose Arrival</option>
+            <option value="Cairo">Cairo Intl Apt (CAI), Egypt</option>
+            <option value="Dubai">Dubai Intl Apt (DXB), UAE</option>
+            <option value="Istanbul">Istanbul Airport (IST), Turkey</option>
+            <option value="Doha">Hamad Intl Apt (DOH), Qatar</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="dates">DATES</label>
+        <input type="text" id="dates" name="TravelDate" class="form-control" placeholder="Departing - Arriving">
+    </div>
+
+    <div class="form-group">
+        <label for="class">CLASS</label>
+        <select id="class" name="Class" class="form-control">
+            <option value="Economy">Economy</option>
+            <option value="Business">Business</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
