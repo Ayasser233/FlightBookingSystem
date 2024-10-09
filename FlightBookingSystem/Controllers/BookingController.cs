@@ -107,14 +107,22 @@ namespace FlightBookingSystem.Controllers
             return View(availableFlights);
         }
         [HttpPost]
-        public IActionResult Step2(int selectedFlightId)
+        public async Task<IActionResult> Step2(int FlightId) // Now using FlightId
         {
-            TempData["SelectedFlightId"] = selectedFlightId;
-            TempData.Keep("FlightSearch");  // Preserve FlightSearch for Step 3
+            if (FlightId <= 0)
+            {
+                // Handle invalid flight ID
+                ModelState.AddModelError("", "Invalid flight selected.");
+                return View(await _flightRepository.GetAllAsync()); // You might want to return to the available flights
+            }
 
+            // Store selected flight ID in TempData
+            TempData["SelectedFlightId"] = FlightId;
+
+            // Redirect to Step 3 to get passenger information
             return RedirectToAction("Step3");
         }
-       
+
 
 
 
@@ -147,6 +155,8 @@ namespace FlightBookingSystem.Controllers
         {
             if (ModelState.IsValid)
             {
+                
+                TempData.Keep("SelectedFlightId");
                 TempData["Passengers"] = JsonConvert.SerializeObject(passengers);
                 return RedirectToAction("Step4");
             }

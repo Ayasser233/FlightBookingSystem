@@ -1,7 +1,7 @@
-﻿@model BookingDto
+﻿@model PaymentDto
 
 <h2>Flight Details</h2>
-<p>Flight ID: @Model.FlightId</p>
+<p>Flight ID: @Model.Flight.FlightId</p>
 <p>Total Price: @Model.TotalPrice</p>
 
 <h2>Passenger Information</h2>
@@ -29,6 +29,13 @@
         <option value="CreditCard">Credit Card</option>
         <option value="PayPal">PayPal</option>
     </select>
+    <h4>Passengers</h4>
+    <ul>
+        @foreach (var passenger in Model.Passengers)
+        {
+            <li>@passenger.FullName - @passenger.PassportNumber</li>
+        }
+    </ul>
 
     <button type="submit">Complete Payment</button>
 </form>
