@@ -22,6 +22,11 @@
         <input asp-for="FlightDate" type="date" class="form-control" />
         <span asp-validation-for="FlightDate" class="text-danger"></span>
     </div>
+     <div>
+        <label  asp-for="NumberOfPassengers">Number of Passengers</label>
+        <input type="number" asp-for="NumberOfPassengers" />
+         <span  asp-for="NumberOfPassengers" class="text-danger"></span>
+    </div>
     <div class="form-group">
         <label asp-for="SeatClass"></label>
         <select asp-for="SeatClass" class="form-control">
