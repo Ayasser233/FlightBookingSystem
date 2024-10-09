@@ -1,6 +1,8 @@
-﻿using FlightBookingSystem.Models;
+﻿using FlightBookingSystem.DTOs;
+using FlightBookingSystem.Models;
 using FlightBookingSystem.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace FlightBookingSystem.Controllers
 {
@@ -83,5 +85,14 @@ namespace FlightBookingSystem.Controllers
             await _flightRepository.Delete(id);
             return RedirectToAction("Index");
         }
+        public async Task<IActionResult> Step2()
+        {
+            var flightSearchData = JsonConvert.DeserializeObject<FlightSearchDto>((string)TempData["FlightSearch"]);
+            var availableFlights = await _flightRepository.GetAvailableFlights(flightSearchData.FromAirport, flightSearchData.ToAirport, flightSearchData.FlightDate, flightSearchData.SeatClass);
+
+            return View(availableFlights);
+        }
+
+
     }
 }

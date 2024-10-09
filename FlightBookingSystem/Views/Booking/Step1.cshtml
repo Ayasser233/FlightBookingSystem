@@ -1,0 +1,29 @@
+﻿@model FlightSearchDto
+
+<form asp-action="Step1" method="post">
+    <div>
+        <label>From Airport</label>
+        <input asp-for="FromAirport" />
+    </div>
+    <div>
+        <label>To Airport</label>
+        <input asp-for="ToAirport" />
+    </div>
+    <div>
+        <label>Number of Passengers</label>
+        <input asp-for="NumberOfPassengers" />
+    </div>
+    <div>
+        <label>Class</label>
+        <select asp-for="SeatClass">
+            <option value="Economy">Economy</option>
+            <option value="Business">Business</option>
+            <option value="First">First Class</option>
+        </select>
+    </div>
+    <div>
+        <label>Flight Date</label>
+        <input asp-for="FlightDate" type="date" />
+    </div>
+    <button type="submit">Search Flights</button>
+</form>

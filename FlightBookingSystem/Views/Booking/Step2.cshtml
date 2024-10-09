@@ -1,0 +1,26 @@
+﻿@model List<Flight>
+
+<form asp-action="Step2" method="post">
+    <table>
+        <thead>
+            <tr>
+                <th>Flight Time</th>
+                <th>Price per Passenger</th>
+                <th>Available Seats</th>
+                <th>Select</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var flight in Model)
+            {
+                <tr>
+                    <td>@flight.DepartureTime</td>
+                    <td>@flight.BasePrice</td>
+                    <td>@flight.AvailableSeats</td>
+                    <td><input type="radio" name="selectedFlightId" value="@flight.FlightId" /></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button type="submit">Continue</button>
+</form>

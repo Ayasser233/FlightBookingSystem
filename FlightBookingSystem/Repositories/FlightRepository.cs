@@ -1,5 +1,6 @@
 ﻿using FlightBookingSystem.Models;
 using Microsoft.EntityFrameworkCore;
+using FlightBookingSystem.DTOs;
 
 namespace FlightBookingSystem.Repositories
 {
@@ -53,5 +54,17 @@ namespace FlightBookingSystem.Repositories
                         f.AvailableSeats >= noOfPassengers)
                 .ToListAsync();
         }
+       
+        public async Task<IEnumerable<Flight>> GetAvailableFlights(string fromAirport, string toAirport, DateTime flightDate, SeatClass seatClass)
+        {
+            return await context.Flights
+                .Where(f => f.DepartureAirport == fromAirport
+                            && f.ArrivalAirport == toAirport
+                            && f.DepartureTime.Date == flightDate.Date).AsQueryable()
+
+                .Where(f => f.AvailableSeats > 0) // Filter by AvailableSeats on client side
+                .ToListAsync();
+        }
+
     }
 }

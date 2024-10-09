@@ -1,0 +1,21 @@
+﻿@model FlightBookingSystem.Models.Booking
+
+@{
+    ViewData["Title"] = "Add";
+}
+
+<h1>Add</h1>
+
+<form asp-action="Add" method="post">
+    <input type="type" name="From" value="" />
+    <input type="type" name="To" value="" />
+    <input type="type" name="number Of passenger" value="" />
+    <input type="type" name="DAte" value="" />
+    <input type="type" name="name" value="" />
+  
+</form>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
