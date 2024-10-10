@@ -1,0 +1,27 @@
+﻿@model FlightBookingSystem.DTOs.UpdateUserDto
+
+@{
+    ViewData["Title"] = "View User";
+}
+
+<h2>User Details</h2>
+
+<div class="form-group">
+    <label>Full Name:</label>
+    <p>@Model.FullName</p>
+</div>
+
+<div class="form-group">
+    <label>Phone Number:</label>
+    <p>@Model.PhoneNumber</p>
+</div>
+
+
+
+<!-- Optionally add a button to go back to the user list -->
+<a asp-action="Users" class="btn btn-secondary">Back to User Management</a>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
