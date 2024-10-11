@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<h2>Admin Dashboard</h2>
+
+<div class="admin-options">
+    <button class="btn btn-primary" onclick="window.location.href='@Url.Action("Users", "Admin")'">
+        Manage Users
+    </button>
+
+    <button class="btn btn-primary" onclick="window.location.href='@Url.Action("Index", "Flight")'">
+        Manage Flights
+    </button>
+</div>
