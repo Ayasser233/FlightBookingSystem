@@ -12,6 +12,7 @@ namespace FlightBookingSystem.Models
         public string FullName { get; set; }
 
         [Required, MaxLength(50), EmailAddress]
+        [Display(Name = "Email Address")]
         public string Email { get; set; }
 
         [Required, MaxLength(20)]
