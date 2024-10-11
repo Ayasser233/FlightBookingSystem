@@ -1,15 +1,72 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-<head>
+<head  >
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - FlightBookingSystem</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link href="~/css/site.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/FlightBookingSystem.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
 </head>
+<style>
+
+    .footer {
+        flex-shrink: inherit;
+        background-color: black;
+        padding: 10px 0;
+        
+    }
+
+    .footer-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        color: aliceblue;
+    }
+
+    .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+        .footer-links a {
+            color: #6c757d;
+            text-decoration: none;
+        }
+
+            .footer-links a:hover {
+                color: #007bff;
+            }
+
+    .fa-cc-visa {
+        font-size: 24px; /* Change the size to your desired value */
+    }
+
+    .fa-cc-mastercard {
+        font-size: 24px; /* Change the size to your desired value */
+    }
+
+    .fa-paypal {
+        font-size: 24px; /* Change the size to your desired value */
+    }
+
+
+
+    .footer-icons svg {
+        fill: currentColor;
+    }
+
+    .footer-links, .social-icons {
+        margin-top: 20px;
+    }
+</style>
 <body>
-    <header>
+    <header class="header">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FlightBookingSystem</a>
@@ -37,6 +94,9 @@
                                 </li>
                             </ul>
                         </li>
+                        <li>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Booking" asp-action="Step1">Booking</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -48,9 +108,23 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="footer ">
         <div class="container">
-            &copy; 2024 - FlightBookingSystem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="footer-content">
+                <div>&copy; 2024 - FlightBookingSystem</div>
+                <div class="footer-links">
+                    <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    <a asp-area="" asp-controller="User" asp-action="Login">Login</a>
+                    
+                </div>
+                <div class="footer-icons  flex-column">
+                    <i class="fa-brands fa-cc-visa p-2"></i>
+                    <i class="fa-brands fa-cc-mastercard p-2"></i>
+                    <i class="fa-brands fa-paypal" p-2></i>
+                    
+                </div>
+            </div>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

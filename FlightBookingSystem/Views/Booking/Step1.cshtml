@@ -17,17 +17,19 @@
         <input asp-for="ToAirport" class="form-control" />
         <span asp-validation-for="ToAirport" class="text-danger"></span>
     </div>
-    <div class="form-group">
-        <label asp-for="FlightDate"></label>
-        <input asp-for="FlightDate" type="date" class="form-control" min="@DateTime.Now.ToString("yyyy-MM-dd")" />
-        <span asp-validation-for="FlightDate" class="text-danger"></span>
+    <div class="form-group col-3">
+        <label asp-for="FlightDate" class="col-form-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <input asp-for="FlightDate" type="date" class="form-control form-control-sm" min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+            <span asp-validation-for="FlightDate" class="text-danger"></span>
+        </div>
     </div>
-    <div class="form-group">
+    <div class="form-group col-3">
         <label  asp-for="NumberOfPassengers">Number of Passengers</label>
-        <input type="number" asp-for="NumberOfPassengers" class="form-control" placeholder="_Set Number Of Passenger_" />
+        <input type="number" asp-for="NumberOfPassengers" class="form-control" min="1" />
          <span  asp-for="NumberOfPassengers" class="text-danger"></span>
     </div>
-    <div class="form-group">
+    <div class="form-group col-2">
         <label asp-for="SeatClass"></label>
         <select asp-for="SeatClass" class="form-control">
             <option value="Economy">Economy</option>

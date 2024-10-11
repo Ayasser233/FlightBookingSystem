@@ -6,6 +6,7 @@ using FlightBookingSystem.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 namespace FlightBookingSystem.Controllers
 {
@@ -233,13 +234,16 @@ namespace FlightBookingSystem.Controllers
             paymentDto.Flight = flight;
             paymentDto.Passengers = passengers;
 
-            
+            TempData.Keep("SelectedFlightId");
+            TempData["Passengers"] = JsonConvert.SerializeObject(passengers); 
+            TempData["Paymentdto"] = JsonConvert.SerializeObject(paymentDto);
+            TempData.Keep();
 
             if (paymentDto.Passengers.Count != 0 & paymentDto.ExpiryDate.Year >=DateTime.Now.Year)
             {
-                await _bookingService.CreateBooking(flightId, passengers,paymentDto);
+               
 
-                return RedirectToAction("Confirmation");
+                return RedirectToAction("Register","UserController");
             }
 
             ModelState.AddModelError("", "Payment failed");

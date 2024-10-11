@@ -1,13 +1,19 @@
 html {
   font-size: 14px;
 }
+.
 
 @media (min-width: 768px) {
   html {
     font-size: 16px;
   }
+header {
+    padding: 60px;
+    text-align: center;
+    background: #1abc9c;
+    color: white;
+    font-size: 30px;
 }
-
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
@@ -17,6 +23,57 @@ html {
   min-height: 100%;
 }
 
+
 body {
   margin-bottom: 60px;
+}
+.footer {
+    flex-shrink: 0;
+    background-color: black;
+    padding: 20px 0;
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    color: aliceblue;
+}
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+    .footer-links a {
+        color: #6c757d;
+        text-decoration: none;
+    }
+
+        .footer-links a:hover {
+            color: #007bff;
+        }
+
+.fa-cc-visa {
+    font-size: 24px; /* Change the size to your desired value */
+}
+
+.fa-cc-mastercard {
+    font-size: 24px; /* Change the size to your desired value */
+}
+
+.fa-paypal {
+    font-size: 24px; /* Change the size to your desired value */
+}
+
+
+
+.footer-icons svg {
+    fill: currentColor;
+}
+
+.footer-links, .social-icons {
+    margin-top: 20px;
 }
