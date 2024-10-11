@@ -13,8 +13,14 @@ namespace FlightBookingSystem.DTOs
 
         [Required]
         public string PaymentMethod { get; set; }
-        public string? CardNumber { get; internal set; }
-        public DateTime ExpiryDate { get; internal set; }
-    }
 
+        [Required]
+        [Display(Name = "Card Number")]
+        [RegularExpression(@"\d{16}", ErrorMessage = "Please enter a valid 16-digit card number")]
+        public string CardNumber { get; set; }
+
+        [Required]
+        [Display(Name = "Expiry Date")]
+        public DateTime ExpiryDate { get; set; }
+    }
 }

@@ -12,6 +12,8 @@ namespace FlightBookingSystem.DTOs
 
         [Required]
         public string PassportNumber { get; set; }
+        [Required]
+        public string Nationality { get; set; }
     }
 
 }

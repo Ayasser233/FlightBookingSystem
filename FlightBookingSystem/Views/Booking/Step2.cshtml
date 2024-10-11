@@ -12,8 +12,11 @@
             <th>Flight ID</th>
             <th>From</th>
             <th>To</th>
+            <th>Available Seats</th>
             <th>Date</th>
+            <th> </th>
             <th>Actions</th>
+            
         </tr>
     </thead>
     <tbody>
@@ -24,10 +27,13 @@
                 <td>@flight.FlightNumber</td>
                 <td>@flight.DepartureAirport</td>
                 <td>@flight.ArrivalAirport</td>
+                <th>@flight.AvailableSeats</th>
                 <td>@flight.DepartureTime.ToShortDateString()</td>
+                <td>@flight.BasePrice</td>
                 <td>
                     <form asp-action="Step2" method="post">
                         <input type="hidden" name="flightId" value="@flight.FlightId" />
+                        
                         <input type="submit" value="Select Flight" class="btn btn-primary" />
                     </form>
                 </td>

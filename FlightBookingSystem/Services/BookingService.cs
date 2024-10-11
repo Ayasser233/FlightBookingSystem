@@ -15,7 +15,7 @@ namespace FlightBookingSystem.Services
             _flightRepository = flightRepository;
         }
 
-        public async Task CreateBooking(int flightId, List<PassengerDto> passengers)
+        public async Task CreateBooking(int flightId, List<PassengerDto> passengers ,PaymentDto paymentDto)
         {
             var flight = await _flightRepository.GetById(flightId);
 
@@ -38,6 +38,7 @@ namespace FlightBookingSystem.Services
 
             // Update booked seats instead of available seats
             flight.BookedSeats += passengers.Count; // Increase booked seats
+            flight.AvailableSeats -= passengers.Count;
 
             _context.Bookings.Add(booking);
             _context.Flights.Update(flight); // Update flight with new seat count

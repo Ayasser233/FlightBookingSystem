@@ -102,7 +102,7 @@ namespace FlightBookingSystem.Repositories
             };
 
             // Step 4: Update the booked seats
-            flight.BookedSeats += passengers.Count;
+            flight.AvailableSeats -= passengers.Count;
 
             // Step 5: Save the booking and update the flight in the database
             context.Bookings.Add(booking);
