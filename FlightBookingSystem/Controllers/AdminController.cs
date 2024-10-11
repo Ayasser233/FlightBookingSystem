@@ -14,6 +14,12 @@ namespace FlightBookingSystem.Controllers
         {
             _userRepository = userRepository;
         }
+        // Admin Dashboard
+        [HttpGet]
+        public IActionResult Dashboard()
+        {
+            return View();
+        }
 
         // User Management
         public async Task<IActionResult> Users()
