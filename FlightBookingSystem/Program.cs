@@ -21,20 +21,15 @@ namespace FlightBookingSystem
 
             // Register repositories
             builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IFlightRepository, FlightRepository>();
+            builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+            builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 
             // Register services
             builder.Services.AddScoped<IUserService, UserService>();
-            builder.Services.AddScoped<IFlightRepository, FlightRepository>();
-            
             builder.Services.AddScoped<IBookingService, BookingService>();
             builder.Services.AddScoped<IPaymentService, PaymentService>();
-           
 
-            // Add services to the container.
-            builder.Services.AddScoped<IBookingRepository, BookingRepository>();
-            builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
-            
-            builder.Services.AddScoped<IBookingService, BookingService>();
             // Set up authentication with cookie
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
@@ -43,7 +38,7 @@ namespace FlightBookingSystem
                 });
 
             builder.Services.AddHttpContextAccessor(); // To access the current HttpContext
-            
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

@@ -4,7 +4,7 @@ namespace FlightBookingSystem.Services
 {
     public interface IBookingService
     {
-        Task CreateBooking(int flightId, List<PassengerDto> passengers,PaymentDto paymentDto);
+        Task CreateBooking(int UserID, int flightId, List<PassengerDto> passengers,PaymentDto paymentDto);
     }
 
 }

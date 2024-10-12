@@ -4,6 +4,7 @@ using FlightBookingSystem.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FlightBookingSystem.Migrations
 {
     [DbContext(typeof(AirLineDBcontext))]
-    partial class AirLineDBcontextModelSnapshot : ModelSnapshot
+    [Migration("20241012221052_ful")]
+    partial class ful
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,7 +54,7 @@ namespace FlightBookingSystem.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Bookings", (string)null);
+                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("FlightBookingSystem.Models.Flight", b =>
@@ -100,7 +103,7 @@ namespace FlightBookingSystem.Migrations
 
                     b.HasKey("FlightId");
 
-                    b.ToTable("Flights", (string)null);
+                    b.ToTable("Flights");
                 });
 
             modelBuilder.Entity("FlightBookingSystem.Models.Passenger", b =>
@@ -143,7 +146,7 @@ namespace FlightBookingSystem.Migrations
 
                     b.HasIndex("BookingId");
 
-                    b.ToTable("Passengers", (string)null);
+                    b.ToTable("Passengers");
                 });
 
             modelBuilder.Entity("FlightBookingSystem.Models.Payment", b =>
@@ -180,7 +183,7 @@ namespace FlightBookingSystem.Migrations
                     b.HasIndex("BookingId")
                         .IsUnique();
 
-                    b.ToTable("Payments", (string)null);
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("FlightBookingSystem.Models.User", b =>
@@ -219,7 +222,7 @@ namespace FlightBookingSystem.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("FlightBookingSystem.Models.Booking", b =>

@@ -5,12 +5,12 @@ namespace FlightBookingSystem.Repositories
 {
     public class UserRepository : IUserRepository {
 
-        private readonly FlightBookingSystem.Models.AirLineDBcontext context ;
-        //private readonly DbSet<User> users;
+        private readonly AirLineDBcontext context ;
+        private readonly DbSet<User> users;
         public UserRepository(AirLineDBcontext context)
         {
             this.context = context;
-            //users = context.Set<User>();
+            users = context.Set<User>();
         }
         public async Task<User> GetUserByEmailAsync(string email)
         {

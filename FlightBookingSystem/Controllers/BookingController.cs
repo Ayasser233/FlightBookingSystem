@@ -241,8 +241,6 @@ namespace FlightBookingSystem.Controllers
 
             if (paymentDto.Passengers.Count != 0 & paymentDto.ExpiryDate.Year >=DateTime.Now.Year)
             {
-               
-
                 return RedirectToAction("Login","User");
             }
 

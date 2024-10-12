@@ -36,11 +36,10 @@ namespace FlightBookingSystem.Models
         [Required]
         [DataType(DataType.Currency)]
         [Range(0, 100000)]
-        [Display(Name = "Total Cost")]
-        public decimal TotalCost { get; set; }
+        public decimal TotalPrice { get; set; }
 
         public Payment Payment { get; set; }
-        public int TotalPrice { get; internal set; }
+        
     }
 
     public enum BookingStatus

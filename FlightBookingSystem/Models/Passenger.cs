@@ -8,8 +8,8 @@ namespace FlightBookingSystem.Models
         [Key]
         public int PassengerId { get; set; }
 
-        [Required]
-        public int BookingId { get; set; }
+        
+        public int? BookingId { get; set; }
 
         [ForeignKey("BookingId")]
         public Booking Booking { get; set; }
