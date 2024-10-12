@@ -243,7 +243,7 @@ namespace FlightBookingSystem.Controllers
             {
                
 
-                return RedirectToAction("Register","UserController");
+                return RedirectToAction("Login","User");
             }
 
             ModelState.AddModelError("", "Payment failed");
