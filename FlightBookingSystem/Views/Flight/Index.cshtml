@@ -1,54 +1,46 @@
-﻿@model IEnumerable<Flight>
+﻿@model IEnumerable<FlightBookingSystem.Models.Flight>
 
-@{
-    ViewData["Title"] = "Flights";
-}
+<h2 class="text-center mt-5">Manage Flights</h2>
 
-<h2>Flights</h2>
-
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.FlightNumber)</th>
-            <th>@Html.DisplayNameFor(model => model.DepartureAirport)</th>
-            <th>@Html.DisplayNameFor(model => model.ArrivalAirport)</th>
-            <th>@Html.DisplayNameFor(model => model.DepartureTime)</th>
-            <th>@Html.DisplayNameFor(model => model.ArrivalTime)</th>
-            <th>@Html.DisplayNameFor(model => model.TotalSeats)</th>
-            <th>@Html.DisplayNameFor(model => model.BookedSeats)</th>
-            <th>@Html.DisplayNameFor(model => model.BasePrice)</th>
-            <th>@Html.DisplayNameFor(model => model.Status)</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var flight in Model)
-        {
+<div class="container mt-4">
+    <table class="table table-hover">
+        <thead class="thead-dark">
             <tr>
-                <td>@Html.DisplayFor(modelItem => flight.FlightNumber)</td>
-                <td>@Html.DisplayFor(modelItem => flight.DepartureAirport)</td>
-                <td>@Html.DisplayFor(modelItem => flight.ArrivalAirport)</td>
-                <td>@Html.DisplayFor(modelItem => flight.DepartureTime)</td>
-                <td>@Html.DisplayFor(modelItem => flight.ArrivalTime)</td>
-                <td>@Html.DisplayFor(modelItem => flight.TotalSeats)</td>
-                <td>@Html.DisplayFor(modelItem => flight.BookedSeats)</td>
-                <td>@Html.DisplayFor(modelItem => flight.BasePrice)</td>
-                <td>@Html.DisplayFor(modelItem => flight.Status)</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@flight.FlightId" class="btn btn-primary">Edit</a> |
-                    
-                    <a asp-action="Delete" asp-route-id="@flight.FlightId" class="btn btn-danger">Delete</a>
-                </td>
+                <th>@Html.DisplayNameFor(model => model.FlightNumber)</th>
+                <th>@Html.DisplayNameFor(model => model.DepartureAirport)</th>
+                <th>@Html.DisplayNameFor(model => model.ArrivalAirport)</th>
+                <th>@Html.DisplayNameFor(model => model.DepartureTime)</th>
+                <th>@Html.DisplayNameFor(model => model.ArrivalTime)</th>
+                <th>@Html.DisplayNameFor(model => model.TotalSeats)</th>
+                <th>@Html.DisplayNameFor(model => model.BookedSeats)</th>
+                <th>@Html.DisplayNameFor(model => model.BasePrice)</th>
+                <th>@Html.DisplayNameFor(model => model.Status)</th>
+                <th>Actions</th>
             </tr>
-        }
-    </tbody>
-</table>
-
-<a asp-action="Add" class="btn btn-success">Add New Flight</a>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
-
+        </thead>
+        <tbody>
+            @foreach (var flight in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => flight.FlightNumber)</td>
+                    <td>@Html.DisplayFor(modelItem => flight.DepartureAirport)</td>
+                    <td>@Html.DisplayFor(modelItem => flight.ArrivalAirport)</td>
+                    <td>@flight.DepartureTime.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>@flight.ArrivalTime.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>@Html.DisplayFor(modelItem => flight.TotalSeats)</td>
+                    <td>@Html.DisplayFor(modelItem => flight.BookedSeats)</td>
+                    <td>@Html.DisplayFor(modelItem => flight.BasePrice)</td>
+                    <td>@Html.DisplayFor(modelItem => flight.Status)</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@flight.FlightId" class="btn btn-primary btn-sm">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@flight.FlightId" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash"></i> Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,8 +1,16 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Welcome to Airline Booking";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="home-banner">
+    <div class="text-center">
+        <h1>Book Your Next Flight</h1>
+        <p>Fly to your dream destination at the best prices</p>
+        <a href="@Url.Action("Index", "Flight")" class="btn btn-primary">Check Flights</a>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <h2>Why Choose Us?</h2>
+    <p>We provide the best deals on flights across the globe.</p>
 </div>

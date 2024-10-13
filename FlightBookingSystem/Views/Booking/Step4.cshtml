@@ -1,11 +1,11 @@
 ﻿@using Newtonsoft.Json
 @model PaymentDto
 
-<h2>Flight Details</h2>
+<h2 class="text-center">Flight Details</h2>
 <p>Flight ID: @Model.Flight.FlightId</p>
 <p>Total Price: @Model.TotalPrice</p>
 
-<h2>Passenger Information</h2>
+<h2 class="mt-4">Passenger Information</h2>
 <ul>
     @foreach (var passenger in Model.Passengers)
     {
@@ -13,20 +13,20 @@
     }
 </ul>
 
-<form asp-action="Step4" method="post">
-    <div>
+<form asp-action="Step4" method="post" class="mt-4">
+    <div class="form-group">
         <label asp-for="CardNumber">Card Number</label>
-        <input asp-for="CardNumber" />
-        <span asp-validation-for="CardNumber"></span>
+        <input asp-for="CardNumber" class="form-control" />
+        <span asp-validation-for="CardNumber" class="text-danger"></span>
     </div>
-    <div>
+    <div class="form-group">
         <label asp-for="ExpiryDate">Expiry Date</label>
-        <input asp-for="ExpiryDate" type="date" min="@DateTime.Now.ToString("yyyy-MM")" />
-        <span asp-validation-for="ExpiryDate"></span>
+        <input asp-for="ExpiryDate" type="date" class="form-control" min="@DateTime.Now.ToString("yyyy-MM")" />
+        <span asp-validation-for="ExpiryDate" class="text-danger"></span>
     </div>
-    <div>
+    <div class="form-group">
         <label asp-for="PaymentMethod">Payment Method</label>
-        <select asp-for="PaymentMethod">
+        <select asp-for="PaymentMethod" class="form-control">
             <option value="CreditCard">Credit Card</option>
             <option value="PayPal">PayPal</option>
         </select>
@@ -41,10 +41,10 @@
     </ul>
 
     <!-- Serialize the Flight object and Passengers list as hidden inputs -->
-    <input type="hidden" asp-for="@Model.Flight" name="Flight" value='@JsonConvert.SerializeObject(Model.Flight)' />
-    <input type="hidden" asp-for="@Model.Passengers" name="Passengers" value='@JsonConvert.SerializeObject(Model.Passengers)' />
+    <input type="hidden" name="Flight" value='@JsonConvert.SerializeObject(Model.Flight)' />
+    <input type="hidden" name="Passengers" value='@JsonConvert.SerializeObject(Model.Passengers)' />
 
-    <button type="submit">Complete Payment</button>
+    <button type="submit" class="btn btn-success mt-3">Complete Payment</button>
 </form>
 
 @section Scripts {

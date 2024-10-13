@@ -68,7 +68,7 @@ namespace FlightBookingSystem.Controllers
             TempData.Keep("SelectedFlightId");
             var availableFlights = await _flightRepository.GetAvailableFlights(
                 flightSearchData.FromAirport, flightSearchData.ToAirport, flightSearchData.FlightDate, flightSearchData.SeatClass);
-            
+
             TempData.Keep("Class");
             return View(availableFlights);
         }
@@ -235,13 +235,13 @@ namespace FlightBookingSystem.Controllers
             paymentDto.Passengers = passengers;
 
             TempData.Keep("SelectedFlightId");
-            TempData["Passengers"] = JsonConvert.SerializeObject(passengers); 
+            TempData["Passengers"] = JsonConvert.SerializeObject(passengers);
             TempData["Paymentdto"] = JsonConvert.SerializeObject(paymentDto);
             TempData.Keep();
 
-            if (paymentDto.Passengers.Count != 0 & paymentDto.ExpiryDate.Year >=DateTime.Now.Year)
+            if (paymentDto.Passengers.Count != 0 & paymentDto.ExpiryDate.Year >= DateTime.Now.Year)
             {
-                return RedirectToAction("Login","User");
+                return RedirectToAction("Login", "User");
             }
 
             ModelState.AddModelError("", "Payment failed");

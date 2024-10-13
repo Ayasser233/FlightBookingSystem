@@ -15,10 +15,10 @@ namespace FlightBookingSystem.Services
             _flightRepository = flightRepository;
         }
 
-        public async Task CreateBooking(int Userid, int flightId, List<PassengerDto> passengers ,PaymentDto paymentDto)
+        public async Task CreateBooking(int Userid, int flightId, List<PassengerDto> passengers, PaymentDto paymentDto)
         {
             var flight = await _flightRepository.GetById(flightId);
-            
+
 
             if (flight == null || flight.AvailableSeats < passengers.Count)
             {
@@ -26,7 +26,7 @@ namespace FlightBookingSystem.Services
             }
 
 
-            var ALL = new 
+            var ALL = new
             {
                 UserId = Userid,
                 FlightId = flightId,
@@ -34,13 +34,13 @@ namespace FlightBookingSystem.Services
                 {
                     FullName = p.FullName,
                     PassportNumber = p.PassportNumber,
-                    Nationality=p.Nationality,
-                    DateOfBirth=p.DateOfBirth,     
+                    Nationality = p.Nationality,
+                    DateOfBirth = p.DateOfBirth,
                 }).ToList(),
                 BookingDate = DateTime.UtcNow,
                 Flight = flight,
                 TotalPrice = (int)(flight.BasePrice * passengers.Count),
-                 
+
                 Amount = paymentDto.TotalPrice,
                 PaymentMethod = paymentDto.PaymentMethod,
                 PaymentDate = paymentDto.ExpiryDate
@@ -50,24 +50,24 @@ namespace FlightBookingSystem.Services
             {
                 UserId = ALL.UserId,
                 FlightId = ALL.FlightId,
-                 ArrivalAirport=flight.ArrivalAirport,
-                
-                Status=BookingStatus.Pending ,
-                
+                ArrivalAirport = flight.ArrivalAirport,
+
+                Status = BookingStatus.Pending,
+
                 Passengers = ALL.Passengers,
                 BookingDate = DateTime.UtcNow,
                 Flight = flight,
                 TotalPrice = (int)(flight.BasePrice * passengers.Count)
             };
-          
 
-            
+
+
             // Update booked seats instead of available seats
             flight.BookedSeats += passengers.Count; // Increase booked seats
             flight.AvailableSeats -= passengers.Count;
             _context.Bookings.Add(booking);
             _context.Flights.Update(flight); // Update flight with new seat count
-            
+
             await _context.SaveChangesAsync();
         }
     }

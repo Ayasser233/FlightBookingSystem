@@ -4,37 +4,34 @@
     ViewData["Title"] = "Step 2: Available Flights";
 }
 
-<h2>Step 2: Available Flights</h2>
+<h2 class="text-center">Step 2: Available Flights</h2>
 
-<table class="table">
-    <thead>
+<table class="table table-striped table-bordered mt-4">
+    <thead class="thead-dark">
         <tr>
             <th>Flight ID</th>
             <th>From</th>
             <th>To</th>
             <th>Available Seats</th>
             <th>Date</th>
-            <th> </th>
+            <th>Base Price</th>
             <th>Actions</th>
-            
         </tr>
     </thead>
     <tbody>
         @foreach (var flight in Model)
         {
             <tr>
-                
                 <td>@flight.FlightNumber</td>
                 <td>@flight.DepartureAirport</td>
                 <td>@flight.ArrivalAirport</td>
-                <th>@flight.AvailableSeats</th>
+                <td>@flight.AvailableSeats</td>
                 <td>@flight.DepartureTime.ToShortDateString()</td>
                 <td>@flight.BasePrice</td>
                 <td>
                     <form asp-action="Step2" method="post">
                         <input type="hidden" name="flightId" value="@flight.FlightId" />
-                        
-                        <input type="submit" value="Select Flight" class="btn btn-primary" />
+                        <button type="submit" class="btn btn-primary">Select Flight</button>
                     </form>
                 </td>
             </tr>
@@ -42,4 +39,4 @@
     </tbody>
 </table>
 
-<a asp-action="Step1" class="btn btn-secondary">Back to Search</a>
+<a asp-action="Step1" class="btn btn-secondary mt-3">Back to Search</a>

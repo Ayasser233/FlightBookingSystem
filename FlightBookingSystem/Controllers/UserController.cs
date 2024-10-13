@@ -69,7 +69,7 @@ namespace FlightBookingSystem.Controllers
                     airLineD.Payments.AddAsync(paymentDb);
                     airLineD.SaveChangesAsync();
                     TempData["BookingId"] = Bookid;
-                    return RedirectToAction("Confirmation", "Booking");
+                    return RedirectToAction("Profile");
                 }
 
                 // Handle error (e.g., user already exists)

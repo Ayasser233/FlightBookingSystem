@@ -1,0 +1,53 @@
+﻿/* Global Full-Screen Background Image */
+body {
+    background: url('../images/airplane-banner.jpg') no-repeat center center fixed;
+    background-size: cover;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Container for page content */
+.container {
+    background-color: rgba(255, 255, 255, 0.85); /* Semi-transparent background */
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* Nav Styles */
+.navbar {
+    background-color: rgba(0, 123, 255, 0.8); /* Slightly transparent */
+}
+
+.nav-link {
+    color: white !important;
+    font-weight: bold;
+}
+
+/* Footer Styles */
+.footer {
+    background-color: rgba(52, 58, 64, 0.8); /* Slightly transparent */
+    padding: 20px 0;
+    
+    text-align: center;
+    position:static;
+    bottom: 0;
+    width: 100%;
+    height: 60px; /* Footer height */
+}
+
+    .footer p {
+        color: black;
+        margin :0;
+    }
+
+/* Adjust table for better readability on background */
+table {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+thead {
+    background-color: #007bff;
+    color: white;
+}

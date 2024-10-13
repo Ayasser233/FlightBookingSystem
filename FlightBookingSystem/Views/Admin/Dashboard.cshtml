@@ -2,14 +2,17 @@
     ViewData["Title"] = "Admin Dashboard";
 }
 
-<h2>Admin Dashboard</h2>
+<h2 class="text-center">Admin Dashboard</h2>
 
-<div class="admin-options">
-    <button class="btn btn-primary" onclick="window.location.href='@Url.Action("Users", "Admin")'">
-        Manage Users
-    </button>
-
-    <button class="btn btn-primary" onclick="window.location.href='@Url.Action("Index", "Flight")'">
-        Manage Flights
-    </button>
+<div class="row mt-5">
+    <div class="col-md-6">
+        <button class="btn btn-primary btn-block" onclick="window.location.href='@Url.Action("Users", "Admin")'">
+            Manage Users
+        </button>
+    </div>
+    <div class="col-md-6">
+        <button class="btn btn-primary btn-block" onclick="window.location.href='@Url.Action("Index", "Flight")'">
+            Manage Flights
+        </button>
+    </div>
 </div>
