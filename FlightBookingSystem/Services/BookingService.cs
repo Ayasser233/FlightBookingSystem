@@ -66,6 +66,7 @@ namespace FlightBookingSystem.Services
             flight.BookedSeats += passengers.Count; // Increase booked seats
             flight.AvailableSeats -= passengers.Count;
             _context.Bookings.Add(booking);
+            
             _context.Flights.Update(flight); // Update flight with new seat count
 
             await _context.SaveChangesAsync();

@@ -13,6 +13,7 @@ namespace FlightBookingSystem.Controllers
     public class UserController : Controller
     {
         private readonly IUserService userService;
+
         private readonly IFlightRepository flightRepository;
         private readonly IUserRepository userRepository;
         private readonly IBookingService bookingService;
@@ -110,6 +111,7 @@ namespace FlightBookingSystem.Controllers
                         var payment = JsonConvert.DeserializeObject<PaymentDto>(paymentJson);
                         await bookingService.CreateBooking(userid, flight.FlightId, passengers, payment);
                         await userService.SignInUserAsync(loginDto.Email);
+
                         var Bookid = (int)airLineD.Bookings.OrderBy(b => b.BookingId).LastOrDefault()?.BookingId;
 
                         var paymentDb = new Payment
@@ -122,17 +124,20 @@ namespace FlightBookingSystem.Controllers
                         await airLineD.Payments.AddAsync(paymentDb);
                         await airLineD.SaveChangesAsync();
                         User userDb = await userRepository.GetUserByEmailAsync(loginDto.Email);
-                        
+                        Booking b = airLineD.Bookings.FirstOrDefault(b=>b.BookingId== Bookid);
+                        userDb.Bookings.Add(b ); // Add a new Booking object
+                        airLineD.Users.Update(userDb);
+                        await airLineD.SaveChangesAsync();
                         var booking = userDb.Bookings;
-                        
-                        return RedirectToAction("Profile", booking);
+
+                        return RedirectToAction("Profile", userDb);
                     }
                     else
                     {
                         User userDb = await userRepository.GetUserByEmailAsync(loginDto.Email);
                         var booking = userDb.Bookings;
-                        
-                        return RedirectToAction("Profile",booking);
+
+                        return RedirectToAction("Profile", userDb);
                     }
                 }
                 ModelState.AddModelError("", result.ErrorMessage);
@@ -151,9 +156,8 @@ namespace FlightBookingSystem.Controllers
 
             // Profile: Display user profile
             [HttpGet]
-            public async Task<IActionResult> Profile()
+            public async Task<IActionResult> Profile( User user)
             {
-                var user = await userService.GetCurrentUserAsync();
 
                 if (user == null)
                 {
