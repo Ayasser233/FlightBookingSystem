@@ -10,7 +10,7 @@ namespace FlightBookingSystem.Repositories
         private readonly AirLineDBcontext context;
         IFlightRepository FlightRepository;
 
-        public BookingRepository(AirLineDBcontext context ,IFlightRepository flightRepository)
+        public BookingRepository(AirLineDBcontext context, IFlightRepository flightRepository)
         {
             this.context = context;
             this.FlightRepository = flightRepository;
@@ -18,12 +18,18 @@ namespace FlightBookingSystem.Repositories
 
         public async Task<IEnumerable<Booking>> GetAllAsync()
         {
-            return await context.Bookings.ToListAsync();
+            return await context.Bookings
+                .Include(b => b.Flight)
+                .Include(b => b.Passengers)
+                .ToListAsync();
         }
 
         public async Task<Booking> GetById(int id)
         {
-            return await context.Bookings.FindAsync(id);
+            return await context.Bookings
+                .Include(b => b.Flight)
+                .Include(b => b.Passengers)
+                .FirstOrDefaultAsync(b => b.BookingId == id);
         }
 
         public async Task Add(Booking booking)
@@ -109,9 +115,6 @@ namespace FlightBookingSystem.Repositories
             context.Flights.Update(flight);
 
             await context.SaveChangesAsync();
-
-
         }
-
     }
 }

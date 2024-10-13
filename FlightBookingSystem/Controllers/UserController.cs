@@ -16,16 +16,18 @@ namespace FlightBookingSystem.Controllers
 
         private readonly IFlightRepository flightRepository;
         private readonly IUserRepository userRepository;
+        private readonly IBookingRepository bookingRepository;
         private readonly IBookingService bookingService;
         private readonly AirLineDBcontext airLineD;
 
-        public UserController(IUserService userService, IFlightRepository flightRepository, IUserRepository userRepository, IBookingService bookingService, AirLineDBcontext airLineDBcontext)
+        public UserController(IUserService userService, IFlightRepository flightRepository, IUserRepository userRepository, IBookingService bookingService, AirLineDBcontext airLineDBcontext,IBookingRepository repository)
         {
             this.userService = userService;
             this.flightRepository = flightRepository;
             this.userRepository = userRepository;
             this.bookingService = bookingService;
             airLineD = airLineDBcontext;
+            bookingRepository = repository;
         }
 
         // Registration: Display registration form
@@ -71,8 +73,13 @@ namespace FlightBookingSystem.Controllers
                     airLineD.SaveChangesAsync();
                     IEnumerable<User> use = await userRepository.GetAllAsync();
                     User userdb = use.LastOrDefault();
+                    Booking b = airLineD.Bookings.FirstOrDefault(b => b.BookingId == Bookid);
+                    userdb.Bookings.Add(b); // Add a new Booking object
+                    airLineD.Users.Update(userdb);
+                    airLineD.SaveChanges();
+                    User userDb1 = await userRepository.GetUserByEmailAsync(createUserDto.Email);
                     TempData["BookingId"] = Bookid;
-                    return RedirectToAction("Profile" , userdb);
+                    return RedirectToAction("Profile" , userDb1);
                 }
 
                 // Handle error (e.g., user already exists)
@@ -129,8 +136,10 @@ namespace FlightBookingSystem.Controllers
                         airLineD.Users.Update(userDb);
                         await airLineD.SaveChangesAsync();
                         var booking = userDb.Bookings;
+                        User userDb1 = await userRepository.GetUserByEmailAsync(loginDto.Email);
 
-                        return RedirectToAction("Profile", userDb);
+
+                        return RedirectToAction("Profile", userDb1);
                     }
                     else
                     {
@@ -154,18 +163,21 @@ namespace FlightBookingSystem.Controllers
             return RedirectToAction("Login");
         }
 
-            // Profile: Display user profile
-            [HttpGet]
-            public async Task<IActionResult> Profile( User user)
+        // Profile: Display user profile
+        [HttpGet]
+        public async Task<IActionResult> Profile(int userId)
+        {
+            // Retrieve the user data from the database using the user ID
+            User user = await userRepository.GetById(userId);
+
+            if (user == null)
             {
-
-                if (user == null)
-                {
-                    return RedirectToAction("Login");
-                }
-
-                return View(user);
+                return RedirectToAction("Login");
             }
+
+            return View(user);
+        }
+
 
         // Profile: Edit user profile
         [HttpPost]
@@ -192,6 +204,33 @@ namespace FlightBookingSystem.Controllers
 
             return View("Profile", user);
         }
+        [HttpPost]
+        public async Task<IActionResult> DeleteBooking(int id)
+        {
+            var booking = await bookingRepository.GetById(id);
+            if (booking == null)
+            {
+                return NotFound(); // 404 if the booking doesn't exist
+            }
+            return View(booking);
+        }
+
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id) // ActionName "Delete" will map this to the form action
+        {
+            var booking = await bookingRepository.GetById(id); // Ensure the booking is fetched before deletion
+            if (booking == null)
+            {
+                return NotFound();
+            }
+            await bookingRepository.Delete(id); // Perform deletion from the database
+            await airLineD.SaveChangesAsync(); // Save changes to the database
+            return RedirectToAction("Profile", new { userId = booking.UserId }); // Redirect to profile after deletion
+        }
+
+
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using FlightBookingSystem.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace FlightBookingSystem.Repositories
 {
@@ -14,7 +15,11 @@ namespace FlightBookingSystem.Repositories
         }
         public async Task<User> GetUserByEmailAsync(string email)
         {
-            return await context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            return await context.Users.AsQueryable()
+        .Include(u => u.Bookings) // Include bookings in the query
+        .ThenInclude(b => b.Flight) // Include flight data if needed
+        .FirstOrDefaultAsync(u => u.Email == email);
+            
         }
 
         public async Task<IEnumerable<User>> GetAllAsync()
@@ -24,7 +29,11 @@ namespace FlightBookingSystem.Repositories
 
         public async Task<User> GetById(int id)
         {
-            return await context.Users.FindAsync(id);
+            return await context.Users.AsQueryable()
+        .Include(u => u.Bookings) // Include bookings in the query
+        .ThenInclude(b => b.Flight) // Include flight data if needed
+        .FirstOrDefaultAsync(u => u.UserId == id);
+
         }
 
         public async Task Add(User user)

@@ -28,6 +28,55 @@ namespace FlightBookingSystem.Controllers
             context = _context;
 
         }
+        public IActionResult Add()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Add(Booking booking)
+        {
+            if (ModelState.IsValid)
+            {
+                await _bookingRepository.Add(booking);
+                return RedirectToAction("Index");
+            }
+            return View(booking);
+        }
+
+
+
+
+        public async Task<IActionResult> Get(int id)
+        {
+            var booking = await _bookingRepository.GetById(id);
+            if (booking == null)
+            {
+                return NotFound();
+            }
+            return View(booking);
+        }
+
+        // Delete booking action
+        [HttpPost]
+        public async Task<IActionResult> DeleteBooking(int id)
+        {
+            var booking = await _bookingRepository.GetById(id);
+            if (booking == null)
+            {
+                return NotFound();
+            }
+            return View(booking);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await _bookingRepository.Delete(id);
+            return RedirectToAction("Login","User");
+        }
 
         // Step 1: Handle Flight Search Form Submission
         public IActionResult Step1()

@@ -1,4 +1,4 @@
-﻿@model FlightBookingSystem.Models.User
+﻿@model User
 
 @{
     ViewData["Title"] = "User Profile";
@@ -37,9 +37,11 @@
                         <td>@booking.Status.ToString()</td>
                         <td>
                             <form asp-action="DeleteBooking" method="post">
-                                <input type="hidden" name="bookingId" value="@booking.BookingId" />
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@booking.BookingId" />
                                 <button type="submit" class="btn btn-danger">Delete Booking</button>
                             </form>
+
                         </td>
                     </tr>
                 }
@@ -51,7 +53,7 @@
         <p>No bookings found.</p>
     }
 
-    <button asp-action="Step1"asp-controller="Booking" class="btn btn-primary">Add New Booking</button>
+    <a asp-action="Step1"asp-controller="Booking" class="btn btn-primary">Add New Booking</a>
 </div>
 
 @section Scripts {
