@@ -4,9 +4,9 @@
 
 <h2>Booking Confirmation</h2>
 
-<div>
+<div class=" alert  alert-success align-content-center border-1">
     <h4>Your booking has been confirmed!</h4>
     <p>Your booking ID is: @TempData["BookingId"]</p>
 </div>
 
-<a asp-action="Index" class="btn btn-secondary">View Bookings</a>
+<a asp-controller="Home" asp-action="Index"  class="btn btn-secondary">View Bookings</a>

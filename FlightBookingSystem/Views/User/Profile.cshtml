@@ -1,6 +1,28 @@
-﻿@model FlightBookingSystem.DTOs.UpdateUserDto
+﻿    @model User
+    @{
+        ViewData["Title"] = "Profile";
+    }
 
-@{
+    <h2>User Profile</h2>
+
+    <div>
+        <h3>User Information</h3>
+        <p>Full Name: @Model.FullName</p>
+        <p>Phone Number: @Model.PhoneNumber</p>
+        <!-- Add more user data here -->
+
+        <h3>Booking Information</h3>
+        <!-- Display user's booking data here -->
+
+        <button class="btn btn-danger">Delete Booking</button>
+        <button class="btn btn-primary">Add New Booking</button>
+    </div>
+
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
     ViewData["Title"] = "Profile";
 }
 

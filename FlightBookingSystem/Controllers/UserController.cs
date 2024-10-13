@@ -57,8 +57,8 @@ namespace FlightBookingSystem.Controllers
                     var flight = await flightRepository.GetById(flightId);
                     var passengers = JsonConvert.DeserializeObject<List<PassengerDto>>(passengersJson);
                     var payment = JsonConvert.DeserializeObject<PaymentDto>(paymentJson);
-                    var Bookid =(int) airLineD.Bookings.OrderBy(b => b.BookingId).LastOrDefault()?.BookingId;
                     await bookingService.CreateBooking(userid, flight.FlightId, passengers, payment);
+                    var Bookid = (int)airLineD.Bookings.OrderBy(b => b.BookingId).LastOrDefault()?.BookingId;
                     var paymentDb = new Payment
                     {
                         BookingId = Bookid,
@@ -68,15 +68,16 @@ namespace FlightBookingSystem.Controllers
                     };
                     airLineD.Payments.AddAsync(paymentDb);
                     airLineD.SaveChangesAsync();
+                    TempData["BookingId"] = Bookid;
                     return RedirectToAction("Confirmation", "Booking");
                 }
 
                 // Handle error (e.g., user already exists)
                 ModelState.AddModelError("", result.ErrorMessage);
             }
-
+        
             return View(createUserDto);
-        }
+        } 
 
         // Login: Display login form
         [HttpGet]
@@ -95,35 +96,44 @@ namespace FlightBookingSystem.Controllers
 
                 if (result.IsSuccess)
                 {
-                    var flightId = (int)TempData["SelectedFlightId"];
-                    var passengersJson = (string)TempData["Passengers"];
-                    var paymentJson = (string)TempData["Paymentdto"];
-                    User u = await userRepository.GetUserByEmailAsync(loginDto.Email);
-                    var userid = u.UserId;
-                    var flight = await flightRepository.GetById(flightId);
-                    var passengers = JsonConvert.DeserializeObject<List<PassengerDto>>(passengersJson);
-                    var payment = JsonConvert.DeserializeObject<PaymentDto>(paymentJson);
-                    await bookingService.CreateBooking(userid, flight.FlightId, passengers, payment);
-                    await userService.SignInUserAsync(loginDto.Email);
-                    var Bookid = (int) airLineD.Bookings.OrderBy(b => b.BookingId).LastOrDefault()?.BookingId;
-                    
-                    var paymentDb = new Payment
+                    if (TempData.ContainsKey("SelectedFlightId") && TempData.ContainsKey("Passengers") && TempData.ContainsKey("Paymentdto"))
                     {
-                        BookingId = Bookid,
-                        Amount = payment.TotalPrice,
-                        PaymentMethod = payment.PaymentMethod,
-                        PaymentDate = payment.ExpiryDate
-                    };
-                    airLineD.Payments.AddAsync(paymentDb);
-                    airLineD.SaveChangesAsync();
+                        var flightId = (int)TempData["SelectedFlightId"];
+                        var passengersJson = (string)TempData["Passengers"];
+                        var paymentJson = (string)TempData["Paymentdto"];
+                        User u = await userRepository.GetUserByEmailAsync(loginDto.Email);
+                        var userid = u.UserId;
+                        var flight = await flightRepository.GetById(flightId);
+                        var passengers = JsonConvert.DeserializeObject<List<PassengerDto>>(passengersJson);
+                        var payment = JsonConvert.DeserializeObject<PaymentDto>(paymentJson);
+                        await bookingService.CreateBooking(userid, flight.FlightId, passengers, payment);
+                        await userService.SignInUserAsync(loginDto.Email);
+                        var Bookid = (int)airLineD.Bookings.OrderBy(b => b.BookingId).LastOrDefault()?.BookingId;
 
-                    return RedirectToAction("Profile");
+                        var paymentDb = new Payment
+                        {
+                            BookingId = Bookid,
+                            Amount = payment.TotalPrice,
+                            PaymentMethod = payment.PaymentMethod,
+                            PaymentDate = payment.ExpiryDate
+                        };
+                        airLineD.Payments.AddAsync(paymentDb);
+                        airLineD.SaveChangesAsync();
+                        User userDb = await userRepository.GetUserByEmailAsync(loginDto.Email);
+                        var booking = userDb.Bookings;
+                        TempData["Bookings"] = booking;
+                        return RedirectToAction("Profile" , userDb);
+                    }
+                    else
+                    {
+                        User userDb = await userRepository.GetUserByEmailAsync(loginDto.Email);
+                        var booking = userDb.Bookings;
+                        TempData["Bookings"] = booking;
+                        return RedirectToAction("Profile");
+                    }
                 }
-
-                // Invalid login
                 ModelState.AddModelError("", result.ErrorMessage);
             }
-
             return View(loginDto);
         }
 
@@ -135,37 +145,38 @@ namespace FlightBookingSystem.Controllers
             return RedirectToAction("Login");
         }
 
-        // Profile: Display user profile
-        [HttpGet]
-        public async Task<IActionResult> Profile()
-        {
-            var user = await userService.GetCurrentUserAsync();
-
-            if (user == null)
+            // Profile: Display user profile
+            [HttpGet]
+            public async Task<IActionResult> Profile()
             {
-                return RedirectToAction("Login");
-            }
+                var user = await userService.GetCurrentUserAsync();
 
-            return View(user);
-        }
-
-        // Profile: Edit user profile
-        [HttpPost]
-        public async Task<IActionResult> EditProfile(UpdateUserDto updateUserDto)
-        {
-            if (ModelState.IsValid)
-            {
-                var result = await userService.UpdateUserAsync(updateUserDto);
-
-                if (result.IsSuccess)
+                if (user == null)
                 {
-                    return RedirectToAction("Profile");
+                    return RedirectToAction("Login");
                 }
 
-                ModelState.AddModelError("", result.ErrorMessage);
+                return View(user);
             }
 
-            return View("Profile", updateUserDto);
+            // Profile: Edit user profile
+            [HttpPost]
+            public async Task<IActionResult> EditProfile(UpdateUserDto updateUserDto)
+            {
+                if (ModelState.IsValid)
+                {
+                    var result = await userService.UpdateUserAsync(updateUserDto);
+
+                    if (result.IsSuccess)
+                    {
+                        return RedirectToAction("Profile");
+                    }
+
+                    ModelState.AddModelError("", result.ErrorMessage);
+                }
+
+                return View("Profile", updateUserDto);
+            }
         }
     }
-}
+
