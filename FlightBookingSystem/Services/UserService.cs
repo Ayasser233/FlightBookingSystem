@@ -71,19 +71,16 @@ namespace FlightBookingSystem.Services
             await httpContextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
-        public async Task<UpdateUserDto> GetCurrentUserAsync()
+        public async Task<User> GetCurrentUserAsync()
         {
             var email = httpContextAccessor.HttpContext.User.Identity.Name;
             var user = await userRepository.GetUserByEmailAsync(email);
 
-            return new UpdateUserDto
-            {
-                FullName = user.FullName,
-                PhoneNumber = user.PhoneNumber
-            };
+            return  user;
+            
         }
 
-        public async Task<(bool IsSuccess, string ErrorMessage)> UpdateUserAsync(UpdateUserDto updateUserDto)
+        public async Task<(bool IsSuccess, string ErrorMessage)> UpdateUserAsync(User updateUserDto)
         {
             var email = httpContextAccessor.HttpContext.User.Identity.Name;
             var user = await userRepository.GetUserByEmailAsync(email);

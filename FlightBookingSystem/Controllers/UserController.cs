@@ -68,8 +68,10 @@ namespace FlightBookingSystem.Controllers
                     };
                     airLineD.Payments.AddAsync(paymentDb);
                     airLineD.SaveChangesAsync();
+                    IEnumerable<User> use = await userRepository.GetAllAsync();
+                    User userdb = use.LastOrDefault();
                     TempData["BookingId"] = Bookid;
-                    return RedirectToAction("Profile");
+                    return RedirectToAction("Profile" , userdb);
                 }
 
                 // Handle error (e.g., user already exists)
@@ -117,25 +119,27 @@ namespace FlightBookingSystem.Controllers
                             PaymentMethod = payment.PaymentMethod,
                             PaymentDate = payment.ExpiryDate
                         };
-                        airLineD.Payments.AddAsync(paymentDb);
-                        airLineD.SaveChangesAsync();
+                        await airLineD.Payments.AddAsync(paymentDb);
+                        await airLineD.SaveChangesAsync();
                         User userDb = await userRepository.GetUserByEmailAsync(loginDto.Email);
+                        
                         var booking = userDb.Bookings;
-                        TempData["Bookings"] = booking;
-                        return RedirectToAction("Profile" , userDb);
+                        
+                        return RedirectToAction("Profile", booking);
                     }
                     else
                     {
                         User userDb = await userRepository.GetUserByEmailAsync(loginDto.Email);
                         var booking = userDb.Bookings;
-                        TempData["Bookings"] = booking;
-                        return RedirectToAction("Profile");
+                        
+                        return RedirectToAction("Profile",booking);
                     }
                 }
                 ModelState.AddModelError("", result.ErrorMessage);
             }
             return View(loginDto);
         }
+
 
         // Logout: Handle user logout
         [HttpPost]
@@ -159,24 +163,32 @@ namespace FlightBookingSystem.Controllers
                 return View(user);
             }
 
-            // Profile: Edit user profile
-            [HttpPost]
-            public async Task<IActionResult> EditProfile(UpdateUserDto updateUserDto)
+        // Profile: Edit user profile
+        [HttpPost]
+        public async Task<IActionResult> EditProfile(User updateUserDto)
+        {
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                var result = await userService.UpdateUserAsync(updateUserDto);
+
+                if (result.IsSuccess)
                 {
-                    var result = await userService.UpdateUserAsync(updateUserDto);
-
-                    if (result.IsSuccess)
-                    {
-                        return RedirectToAction("Profile");
-                    }
-
-                    ModelState.AddModelError("", result.ErrorMessage);
+                    return RedirectToAction("Profile");
                 }
 
-                return View("Profile", updateUserDto);
+                ModelState.AddModelError("", result.ErrorMessage);
             }
+
+            var user = new User
+            {
+                FullName = updateUserDto.FullName,
+                PhoneNumber = updateUserDto.PhoneNumber,
+                
+            };
+
+            return View("Profile", user);
         }
+
     }
+}
 

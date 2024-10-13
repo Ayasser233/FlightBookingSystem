@@ -1,4 +1,5 @@
 ﻿using FlightBookingSystem.DTOs;
+using FlightBookingSystem.Models;
 using System.Threading.Tasks;
 
 namespace FlightBookingSystem.Services
@@ -9,7 +10,8 @@ namespace FlightBookingSystem.Services
         Task<(bool IsSuccess, string ErrorMessage)> ValidateUserCredentialsAsync(LoginDto loginDto);
         Task SignInUserAsync(string email);
         Task SignOutUserAsync();
-        Task<UpdateUserDto> GetCurrentUserAsync();
-        Task<(bool IsSuccess, string ErrorMessage)> UpdateUserAsync(UpdateUserDto updateUserDto);
+        Task<User> GetCurrentUserAsync();
+        Task<(bool IsSuccess, string ErrorMessage)> UpdateUserAsync(User updateUserDto);
+        
     }
 }
