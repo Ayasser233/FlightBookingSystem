@@ -75,7 +75,7 @@ namespace FlightBookingSystem.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await _bookingRepository.Delete(id);
-            return RedirectToAction("Login","User");
+            return RedirectToAction("Login", "User");
         }
 
         // Step 1: Handle Flight Search Form Submission

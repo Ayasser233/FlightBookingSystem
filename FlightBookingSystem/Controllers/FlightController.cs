@@ -29,6 +29,7 @@ namespace FlightBookingSystem.Controllers
         {
             if (ModelState.IsValid)
             {
+                flight.AvailableSeats = flight.TotalSeats - flight.BookedSeats;
                 await _flightRepository.Add(flight);
                 return RedirectToAction("Index");
             }

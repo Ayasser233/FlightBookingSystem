@@ -44,27 +44,30 @@ namespace FlightBookingSystem.Repositories
             }
         }
 
-        public async Task<IEnumerable<Flight>> SearchFlightsAsync(string departureAirport, string ArrivalAirport, DateTime departureDate, int noOfPassengers)
+        
+
+       
+        public async Task<IEnumerable<Flight>> SearchFlightsAsync(string departureAirport, string arrivalAirport, DateTime departureDate, int noOfPassengers)
         {
             return await context.Flights
-                .Where(f => 
-                        f.DepartureAirport == departureAirport &&
-                        f.ArrivalAirport == ArrivalAirport &&
-                        f.DepartureTime == departureDate &&
-                        f.AvailableSeats >= noOfPassengers)
+                .Where(f => f.DepartureAirport == departureAirport
+                            && f.ArrivalAirport == arrivalAirport
+                            && f.DepartureTime.Date == departureDate.Date  // Use Date comparison for exact match
+                            && f.AvailableSeats >= noOfPassengers)  // Ensure enough available seats
                 .ToListAsync();
         }
-       
+
+        // Method 2: GetAvailableFlights
         public async Task<IEnumerable<Flight>> GetAvailableFlights(string fromAirport, string toAirport, DateTime flightDate, SeatClass seatClass)
         {
             return await context.Flights
                 .Where(f => f.DepartureAirport == fromAirport
                             && f.ArrivalAirport == toAirport
-                            && f.DepartureTime.Date == flightDate.Date).AsQueryable()
-
-                .Where(f => f.AvailableSeats > 0) // Filter by AvailableSeats on client side
+                            && f.DepartureTime.Date == flightDate.Date 
+                            && f.AvailableSeats > 0  )
                 .ToListAsync();
         }
+
 
     }
 }

@@ -25,7 +25,7 @@
                 <td>@flight.FlightNumber</td>
                 <td>@flight.DepartureAirport</td>
                 <td>@flight.ArrivalAirport</td>
-                <td>@flight.AvailableSeats</td>
+                <td>@(flight.TotalSeats - flight.BookedSeats)</td>
                 <td>@flight.DepartureTime.ToShortDateString()</td>
                 <td>@flight.BasePrice</td>
                 <td>

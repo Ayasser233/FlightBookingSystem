@@ -74,6 +74,7 @@ namespace FlightBookingSystem.Controllers
                     IEnumerable<User> use = await userRepository.GetAllAsync();
                     User userdb = use.LastOrDefault();
                     Booking b = airLineD.Bookings.FirstOrDefault(b => b.BookingId == Bookid);
+                    b.Status = BookingStatus.Confirmed;
                     userdb.Bookings.Add(b); // Add a new Booking object
                     airLineD.Users.Update(userdb);
                     airLineD.SaveChanges();
@@ -132,6 +133,7 @@ namespace FlightBookingSystem.Controllers
                         await airLineD.SaveChangesAsync();
                         User userDb = await userRepository.GetUserByEmailAsync(loginDto.Email);
                         Booking b = airLineD.Bookings.FirstOrDefault(b=>b.BookingId== Bookid);
+                        b.Status = BookingStatus.Confirmed;
                         userDb.Bookings.Add(b ); // Add a new Booking object
                         airLineD.Users.Update(userDb);
                         await airLineD.SaveChangesAsync();
